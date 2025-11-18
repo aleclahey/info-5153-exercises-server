@@ -12,8 +12,16 @@ public class ReportController {
     @Autowired
     private ReportDAO reportDAO;
 
+    @Autowired
+    private ReportRepository reportRepository;
+
     @PostMapping("/api/reports")
     public ResponseEntity<Report> addOne(@RequestBody Report report) {
         return new ResponseEntity<Report>(reportDAO.create(report), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/reports/{id}")
+    public ResponseEntity<Iterable<Report>> findByEmployee(@PathVariable Long id) {
+        return new ResponseEntity<Iterable<Report>>(reportRepository.findByEmployeeId(id), HttpStatus.OK);
     }
 }
