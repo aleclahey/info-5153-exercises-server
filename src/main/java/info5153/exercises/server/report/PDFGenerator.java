@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.net.URL;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -58,8 +59,12 @@ public abstract class PDFGenerator extends AbstractPdfView {
             NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(locale);
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-            document.add(new Paragraph(String.format("Report ID #" + id)).setFont(font).setFontSize(12)
-                    .setTextAlignment(TextAlignment.CENTER).simulateBold());
+            // App Logo
+            URL imageUrl = PDFGenerator.class.getResource("/static/images/logo.png");
+            Image img = new Image(ImageDataFactory.create(imageUrl)).setMaxHeight(64).setHorizontalAlignment(HorizontalAlignment.CENTER);
+            document.add(img);
+
+            document.add(new Paragraph(String.format("Report ID #" + id)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER).simulateBold());
 
             // Table created, but not added yet
             Table table = new Table(4);
